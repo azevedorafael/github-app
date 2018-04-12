@@ -1,33 +1,35 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import Search from './search'
 import UserInfo from './user-info'
 import Actions from './actions'
 import Repos from './repos'
 
-const AppContent = () => (
+const AppContent = ({ userInfo, repos, starred }) => (
     <div className='app'>
         <Search />
-        <UserInfo />
-        <Actions />
+        {!!userInfo && <UserInfo userInfo={userInfo} />}
+        {!!userInfo && <Actions />}
 
-        <Repos
+        {!!repos.length && <Repos
             className='repos'
             title='Repositórios:'
-            repos={[{
-                name: 'Nome do repositório',
-                link: '#'
-            }]}
+            repos={repos}
         />
+        }
 
-        <Repos
+        {!!starred.length && <Repos
             className='starred'
             title='Favoritos:'
-            repos={[{
-                name: 'Nome do repositório',
-                link: '#'
-            }]}
+            repos={starred}
         />
+        }
     </div>
 )
+
+AppContent.propTypes = {
+    userInfo: PropTypes.object.isRequired,
+    repos: PropTypes.array.isRequired,
+    starred: PropTypes.array.isRequired
+}
 
 export default AppContent
