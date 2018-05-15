@@ -40,12 +40,31 @@ class App extends Component {
     }
   }
 
+  getRepos(type) {
+    return (e) => {
+      get(`https://api.github.com/users/${this.state.userInfo.login}/${type}`)
+        .then((response) => {
+          this.setState({
+            [type]: response.data.map((repo) => ({
+              name: repo.name,
+              link: repo.html_url
+            }))
+          })
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    }
+  }
+
   render() {
     return <AppContent
       userInfo={this.state.userInfo}
       repos={this.state.repos}
       starred={this.state.starred}
       handleSearch={(e) => this.handleSearch(e)}
+      getRepos={this.getRepos('repos')}
+      getStarred={this.getRepos('starred')}
     />
   }
 }
