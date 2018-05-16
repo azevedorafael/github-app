@@ -25,8 +25,10 @@ class App extends Component {
     const value = e.target.value
     const keyCode = e.which || e.keyCode
     const ENTER = 13
+    const target = e.target
 
     if (keyCode === ENTER) {
+      target.disabled = true
       get(this.getGitHubApiUrl(value))
         .then((response) => {
           this.setState({
@@ -41,6 +43,7 @@ class App extends Component {
             repos: [],
             starred: []
           })
+          target.disabled = false
         })
         .catch((error) => {
           console.log(error);
